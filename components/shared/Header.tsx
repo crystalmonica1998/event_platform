@@ -3,8 +3,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { Button } from '../ui/button'
-import Navitems from './Navitems'
 import MobileNav from './MobileNav'
+import Navitems from './Navitems'
 
 const Header = () => {
   return (
