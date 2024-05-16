@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/sheet'
 import Image from 'next/image'
 import { Separator } from '../ui/separator'
-import Navitems from './Navitems'
+import NavItems from './NavItems'
 
 function MobileNav() {
   return (
@@ -34,7 +34,7 @@ function MobileNav() {
 
                 <Separator className='border border-gray' />
 
-                <Navitems />
+                <NavItems />
             </SheetContent>
         </Sheet>
     </nav>

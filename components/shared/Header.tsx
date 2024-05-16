@@ -4,7 +4,7 @@ import Link from 'next/link'
 import React from 'react'
 import { Button } from '../ui/button'
 import MobileNav from './MobileNav'
-import Navitems from './Navitems'
+import NavItems from './NavItems'
 
 const Header = () => {
   return (
@@ -21,7 +21,7 @@ const Header = () => {
 
         <SignedIn>
           <nav className='md:flex-between hidden w-full max-w-xs'>
-            <Navitems />
+            <NavItems />
           </nav>
         </SignedIn>
 

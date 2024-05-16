@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React from 'react'
  
- function Navitems() {
+ function NavItems() {
   const pathname = usePathname();
 
    return (
@@ -24,4 +24,4 @@ import React from 'react'
    )
  }
  
- export default Navitems
+ export default NavItems
