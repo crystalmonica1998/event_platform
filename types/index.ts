@@ -79,6 +79,7 @@
     url: string
     organizer: {
       _id: string
+      id: string
       firstName: string
       lastName: string
     }

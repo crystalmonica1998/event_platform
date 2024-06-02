@@ -25,8 +25,9 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { Checkbox } from '../ui/checkbox'
 import { useUploadThing } from '@/lib/uploadthing'
 import { useRouter } from 'next/navigation'
-import { createEvent } from '@/lib/actions/event.actions'
+import { createEvent, updateEvent } from '@/lib/actions/event.actions'
 import { createUser } from '@/lib/actions/user.actions'
+import { IEvent } from '@/lib/database/models/event.model'
 
 type EventFormProps = {
   userValues: {
@@ -35,11 +36,20 @@ type EventFormProps = {
     userId: string
   }
   type: 'Create' | 'Update'
+  event?: IEvent
+  eventId?: string
 }
 
-const EventForm = ({ userValues, type }: EventFormProps) => {
+const EventForm = ({ userValues, type, eventId, event }: EventFormProps) => {
   const [files, setFiles] = useState<File[]>([])
-  const initialValues = eventDefaultValues
+  const initialValues =
+    event && type === 'Update'
+      ? {
+          ...event,
+          startDateTime: new Date(event.startDateTime),
+          endDateTime: new Date(event.endDateTime)
+        }
+      : eventDefaultValues
   const router = useRouter()
 
   const { startUpload } = useUploadThing('imageUploader')
@@ -67,7 +77,7 @@ const EventForm = ({ userValues, type }: EventFormProps) => {
         id: userValues.userId,
         firstName: userValues.firstName,
         lastName: userValues.lastName
-      });
+      })
 
       if (type === 'Create') {
         try {
@@ -75,11 +85,33 @@ const EventForm = ({ userValues, type }: EventFormProps) => {
             event: { ...values, imageUrl: uploadedImageUrl },
             userId: userToAdd._id,
             path: '/profile'
-          });
+          })
 
           if (newEvent) {
             form.reset()
             router.push(`/events/${newEvent._id}`)
+          }
+        } catch (error) {
+          console.log('Failed to create event: ', error)
+        }
+      }
+
+      if (type === 'Update') {
+        if(!eventId) {
+          router.back();
+          return;
+        }
+
+        try {
+          const updatedEvent = await updateEvent({
+            userId:  userToAdd._id,
+            event: { ...values, imageUrl: uploadedImageUrl, _id: eventId },
+            path: `/events/${eventId}`
+          })
+
+          if (updatedEvent) {
+            form.reset()
+            router.push(`/events/${updatedEvent._id}`)
           }
         } catch (error) {
           console.log('Failed to create event: ', error)

@@ -1,10 +1,19 @@
 import EventForm from '@/components/shared/EventForm'
+import { getEventById } from '@/lib/actions/event.actions'
 import { currentUser } from '@clerk/nextjs/server'
 import React from 'react'
 
-const UpdateEvent = async () => {
+type UpdateEventProps = {
+  params: {
+    id: string
+  }
+}
+
+const UpdateEvent = async ({ params: { id } }: UpdateEventProps) => {
   const user = await currentUser()
   if (!user) return null
+
+  const event = await getEventById(id)
 
   type UserValuesProps = {
     firstName: string
@@ -27,7 +36,7 @@ const UpdateEvent = async () => {
       </section>
 
       <div className='wrapper my-8'>
-        <EventForm userValues={userValues} type='Update' />
+        <EventForm userValues={userValues} type='Update' eventId={event._id} event={event} />
       </div>
     </>
   )
