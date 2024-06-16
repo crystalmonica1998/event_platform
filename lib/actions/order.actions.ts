@@ -61,7 +61,6 @@ export const createOrder = async (order: CreateOrderParams) => {
   }
 }
 
-// GET ORDERS BY EVENT
 export async function getOrdersByEvent({ searchString, eventId }: GetOrdersByEventParams) {
   try {
     await connectToDatabase()
@@ -117,7 +116,6 @@ export async function getOrdersByEvent({ searchString, eventId }: GetOrdersByEve
   }
 }
 
-// GET ORDERS BY USER
 export async function getOrdersByUser({ userId, limit = 3, page }: GetOrdersByUserParams) {
   try {
     await connectToDatabase()
